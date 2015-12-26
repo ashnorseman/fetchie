@@ -1,0 +1,31 @@
+{
+  "name": "fetchie",
+  "version": "0.1.0",
+  "description": "enhanced fetch api",
+  "main": "src/fetchie.js",
+  "scripts": {
+    "build": "watchify -t babelify example/test.js -o example/test-build.js",
+    "start": "nodemon server & npm run build"
+  },
+  "keywords": [
+    "fetch",
+    "ajax"
+  ],
+  "author": "Ash Zhang",
+  "dependencies": {
+    "path-to-regexp": "^1.2.1"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "babelify": "^7.2.0",
+    "express": "^4.13.3",
+    "karma": "latest",
+    "karma-browserify": "^4.4.2",
+    "karma-chrome-launcher": "latest",
+    "karma-jasmine": "latest",
+    "nodemon": "latest",
+    "watchify": "^3.6.1"
+  }
+}

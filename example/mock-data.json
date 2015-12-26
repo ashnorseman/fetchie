@@ -1,0 +1,23 @@
+{
+  "gifts/:id?": {
+    "get": [
+      {
+        "id": 1,
+        "name": "Gift 1"
+      },
+      {
+        "id": 2,
+        "name": "Gift 2"
+      }
+    ],
+    "post": {
+      "name": "$$name$$"
+    },
+    "put": {
+      "id": 3
+    },
+    "error": {
+      "error": true
+    }
+  }
+}
