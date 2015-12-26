@@ -1,11 +1,13 @@
 {
   "name": "fetchie",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "enhanced fetch api",
-  "main": "src/fetchie.js",
+  "main": "build/fetchie.js",
   "scripts": {
-    "build": "watchify -t babelify example/test.js -o example/test-build.js",
-    "start": "nodemon server & npm run build"
+    "build": "babel src -d build",
+    "test": "watchify -t babelify example/test.js -o example/test-build.js",
+    "start": "nodemon server & npm run build",
+    "postinstall": "npm run build"
   },
   "keywords": [
     "fetch",

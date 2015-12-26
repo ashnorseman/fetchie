@@ -5,6 +5,7 @@
 
 import { SUPPORTED_METHODS } from './constants';
 import Request from './request';
+import fetchieMock from './mock';
 
 
 const fetchie = {
@@ -68,5 +69,6 @@ Object.getOwnPropertyNames(SUPPORTED_METHODS).forEach(method => {
   fetchie[method] = genRequest(SUPPORTED_METHODS[method]);
 });
 
+export { fetchieMock };
 
 export default fetchie;
