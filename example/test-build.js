@@ -34,7 +34,7 @@ var _mock = require('../src/mock');
 
 var _mock2 = _interopRequireDefault(_mock);
 
-var _mockData = require('./mock-data.json');
+var _mockData = require('./data/mock-data.json');
 
 var _mockData2 = _interopRequireDefault(_mockData);
 
@@ -103,7 +103,7 @@ document.getElementById('file').addEventListener('change', function (e) {
   });
 });
 
-},{"../src/fetchie":6,"../src/mock":7,"./mock-data.json":1}],3:[function(require,module,exports){
+},{"../src/fetchie":6,"../src/mock":7,"./data/mock-data.json":1}],3:[function(require,module,exports){
 var isarray = require('isarray')
 
 /**
@@ -535,6 +535,7 @@ var TIMEOUT_ERROR = exports.TIMEOUT_ERROR = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.fetchieMock = undefined;
 
 var _constants = require('./constants');
 
@@ -542,11 +543,11 @@ var _request = require('./request');
 
 var _request2 = _interopRequireDefault(_request);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _mock = require('./mock');
 
-/**
- * Created by AshZhang on 15/12/24.
- */
+var _mock2 = _interopRequireDefault(_mock);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fetchie = {
 
@@ -586,7 +587,9 @@ var fetchie = {
 
     return this;
   }
-};
+}; /**
+    * Created by AshZhang on 15/12/24.
+    */
 
 _request2.default._fetchie = fetchie;
 
@@ -606,9 +609,10 @@ Object.getOwnPropertyNames(_constants.SUPPORTED_METHODS).forEach(function (metho
   fetchie[method] = genRequest(_constants.SUPPORTED_METHODS[method]);
 });
 
+exports.fetchieMock = _mock2.default;
 exports.default = fetchie;
 
-},{"./constants":5,"./request":8}],7:[function(require,module,exports){
+},{"./constants":5,"./mock":7,"./request":8}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -682,7 +686,7 @@ function fetchieMock(mockData) {
         }
       });
 
-      console.log('[Mock]', this.toString(), res);
+      console.info('[Mock]', this.toString(), res);
 
       // Mock server delay
       if (delayMs > this._timeout) {

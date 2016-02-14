@@ -5,7 +5,7 @@
 
 import fetchie from '../src/fetchie';
 import fetchieMock from '../src/mock';
-import mockData from './mock-data.json';
+import mockData from './data/mock-data.json';
 
 
 fetchie
