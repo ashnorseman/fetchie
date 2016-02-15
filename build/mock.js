@@ -71,7 +71,7 @@ function fetchieMock(mockData) {
         }
       });
 
-      console.log('[Mock]', this.toString(), res);
+      console.info('[Mock]', this.toString(), res);
 
       // Mock server delay
       if (delayMs > this._timeout) {
