@@ -1,13 +1,13 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 /**
  * Created by AshZhang on 15/12/24.
  */
 
-var SUPPORTED_METHODS = exports.SUPPORTED_METHODS = {
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var SUPPORTED_METHODS = {
   get: 'GET',
   post: 'POST',
   put: 'PUT',
@@ -15,13 +15,16 @@ var SUPPORTED_METHODS = exports.SUPPORTED_METHODS = {
   head: 'HEAD'
 };
 
-var TYPES = exports.TYPES = {
+exports.SUPPORTED_METHODS = SUPPORTED_METHODS;
+var TYPES = {
   html: 'text/html',
   json: 'application/json',
   text: 'text/plain',
   xml: 'application/xml'
 };
 
-var TIMEOUT_ERROR = exports.TIMEOUT_ERROR = {
+exports.TYPES = TYPES;
+var TIMEOUT_ERROR = {
   message: 'Timeout'
 };
+exports.TIMEOUT_ERROR = TIMEOUT_ERROR;

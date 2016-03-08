@@ -5,7 +5,7 @@
 
 import fetchie from '../src/fetchie';
 import fetchieMock from '../src/mock';
-import mockData from './data/mock-data.json';
+import mockData from './data/mock-data.js';
 
 
 fetchie
@@ -34,6 +34,17 @@ fetchie
 
 fetchie
   .get('/gifts')
+  .query({
+    pageNum: 1,
+    pageSize: 16
+  })
+  //.mockError()
+  .then(function (res) {
+    console.log(this.toString(), res);
+  });
+
+fetchie
+  .get('/gifts/1')
   .query({
     pageNum: 1,
     pageSize: 16

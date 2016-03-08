@@ -46,17 +46,20 @@ export default function fetchieMock(mockData, delayMs = 200) {
         pathMatched = pathMap.filter(item => {
           return item.reg.test(urlTrimmed);
         }),
-        resource = pathMatched[0] ? mockData[pathMatched[0].path] : {},
-        res = resource[this._returnError ? 'error': method.toLocaleLowerCase()] || {};
+        resource = pathMatched[0] ? mockData[pathMatched[0].path] : {};
 
-      // Insert client data
-      Object.getOwnPropertyNames(res).forEach(key => {
-        const test = /\$\$(\w+)\$\$/.exec(res[key]);
+      let res = resource[this._returnError ? 'error': method.toLocaleLowerCase()] || {};
 
-        if (test) {
-          res[key] = data[test[1]];
-        }
-      });
+      if (typeof res === 'function') {
+        const keys = [],
+            reg = pathToExp(pathMatched[0].path, keys),
+            params = reg.exec(urlTrimmed).slice(1);
+
+        res = res(_queries, keys.reduce((result, key, i) => {
+          result[key.name] = params[i];
+          return result;
+        }, {}));
+      }
 
       console.info('[Mock]', this.toString(), res);
 

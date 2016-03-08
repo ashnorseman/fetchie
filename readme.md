@@ -203,6 +203,34 @@ mock-data.json 的格式如下：路径-请求方法-数据
 }
 ```
 
+也可以用函数
+
+```javascript
+{
+  "gifts/:id?": {
+    get(query, param) {
+      if (param.id) {
+        return         {
+          "id": param.id,
+          "name": "Gift 1"
+        };
+      }
+
+      return [
+        {
+          "id": 1,
+          "name": "Gift 1"
+        },
+        {
+          "id": 2,
+          "name": "Gift 2"
+        }
+      ];
+    }
+  }
+}
+```
+
 注：`error` 下为请求错误时的返回数据，要 mock 一个错误回调，只需插入一个`.mockError()`：
 
 ```javascript

@@ -1,16 +1,18 @@
+/**
+ * Created by AshZhang on 15/12/24.
+ */
+
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })(); /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * Created by AshZhang on 15/12/24.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        */
-
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _constants = require('./constants');
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var _constants = require('./constants');
 
 /**
  * Extend object
@@ -116,7 +118,6 @@ var Request = (function () {
      * Append a query string
      * @param {object} query
      */
-
   }, {
     key: 'query',
     value: function query() {
@@ -132,7 +133,6 @@ var Request = (function () {
      * @param {object} data
      * @returns {Request}
      */
-
   }, {
     key: 'send',
     value: function send() {
@@ -151,7 +151,6 @@ var Request = (function () {
      * @param {string} [fileName]
      * @returns {Request}
      */
-
   }, {
     key: 'append',
     value: function append(name, file, fileName) {
@@ -171,7 +170,6 @@ var Request = (function () {
      * @param {Object} headers
      * @returns {Request}
      */
-
   }, {
     key: 'set',
     value: function set() {
@@ -187,7 +185,6 @@ var Request = (function () {
      * @param {string} type - json, form, html, xml
      * @returns {Request}
      */
-
   }, {
     key: 'setType',
     value: function setType(type) {
@@ -201,7 +198,6 @@ var Request = (function () {
      * @param {string} type
      * @returns {Request}
      */
-
   }, {
     key: 'accept',
     value: function accept(type) {
@@ -215,7 +211,6 @@ var Request = (function () {
      * @param {boolean} needCors
      * @returns {Request}
      */
-
   }, {
     key: 'cors',
     value: function cors(needCors) {
@@ -229,7 +224,6 @@ var Request = (function () {
      * @param {string} prefix
      * @returns {Request}
      */
-
   }, {
     key: 'prefix',
     value: function prefix(_prefix) {
@@ -243,7 +237,6 @@ var Request = (function () {
      * @param {number} ms
      * @returns {Request}
      */
-
   }, {
     key: 'timeout',
     value: function timeout(ms) {
@@ -257,7 +250,6 @@ var Request = (function () {
      * @param {Function} cb - cb(error<Object>)
      * @returns {Request}
      */
-
   }, {
     key: 'handleError',
     value: function handleError(cb) {
@@ -272,7 +264,6 @@ var Request = (function () {
      * @param {Function} cb
      * @returns {Promise}
      */
-
   }, {
     key: 'then',
     value: function then(cb) {
@@ -284,7 +275,7 @@ var Request = (function () {
         } else {
           cb.call(_this, res);
         }
-      }).catch(function (error) {
+      })['catch'](function (error) {
 
         // Global error handlers
         Request._fetchie._errorHandlers.forEach(function (cb) {
@@ -306,7 +297,6 @@ var Request = (function () {
      * @returns {Promise}
      * @private
      */
-
   }, {
     key: '_sendRequest',
     value: function _sendRequest() {
@@ -362,7 +352,6 @@ var Request = (function () {
      * @param {number} timeout
      * @private
      */
-
   }, {
     key: '_fetch',
     value: function _fetch(_ref2) {
@@ -388,7 +377,7 @@ var Request = (function () {
         _this3._status = res.status;
         _this3._resolved = true;
         clearTimeout(timeout);
-      }).catch(function (res) {
+      })['catch'](function (res) {
         reject(res);
         _this3._resolved = true;
         clearTimeout(timeout);
@@ -400,7 +389,6 @@ var Request = (function () {
      * @param {Object} res
      * @returns {*}
      */
-
   }, {
     key: '_parseResponse',
     value: function _parseResponse(res) {
@@ -419,4 +407,5 @@ var Request = (function () {
   return Request;
 })();
 
-exports.default = Request;
+exports['default'] = Request;
+module.exports = exports['default'];

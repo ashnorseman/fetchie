@@ -1,16 +1,29 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports={
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
   "gifts/:id?": {
-    "get": [
-      {
+    get: function get(query, param) {
+
+      if (param.id) {
+        return {
+          "id": param.id,
+          "name": "Gift 1"
+        };
+      }
+
+      return [{
         "id": 1,
         "name": "Gift 1"
-      },
-      {
+      }, {
         "id": 2,
         "name": "Gift 2"
-      }
-    ],
+      }];
+    },
+
     "post": {
       "name": "$$name$$"
     },
@@ -21,7 +34,7 @@ module.exports={
       "error": true
     }
   }
-}
+};
 
 },{}],2:[function(require,module,exports){
 'use strict';
@@ -34,7 +47,7 @@ var _mock = require('../src/mock');
 
 var _mock2 = _interopRequireDefault(_mock);
 
-var _mockData = require('./data/mock-data.json');
+var _mockData = require('./data/mock-data.js');
 
 var _mockData2 = _interopRequireDefault(_mockData);
 
@@ -59,6 +72,15 @@ _fetchie2.default.use(function () {
      */
 
 _fetchie2.default.get('/gifts').query({
+  pageNum: 1,
+  pageSize: 16
+})
+//.mockError()
+.then(function (res) {
+  console.log(this.toString(), res);
+});
+
+_fetchie2.default.get('/gifts/1').query({
   pageNum: 1,
   pageSize: 16
 })
@@ -103,7 +125,7 @@ document.getElementById('file').addEventListener('change', function (e) {
   });
 });
 
-},{"../src/fetchie":6,"../src/mock":7,"./data/mock-data.json":1}],3:[function(require,module,exports){
+},{"../src/fetchie":6,"../src/mock":7,"./data/mock-data.js":1}],3:[function(require,module,exports){
 var isarray = require('isarray')
 
 /**
@@ -675,16 +697,21 @@ function fetchieMock(mockData) {
         return item.reg.test(urlTrimmed);
       });
       var resource = pathMatched[0] ? mockData[pathMatched[0].path] : {};
+
       var res = resource[this._returnError ? 'error' : method.toLocaleLowerCase()] || {};
 
-      // Insert client data
-      Object.getOwnPropertyNames(res).forEach(function (key) {
-        var test = /\$\$(\w+)\$\$/.exec(res[key]);
+      if (typeof res === 'function') {
+        (function () {
+          var keys = [],
+              reg = (0, _pathToRegexp2.default)(pathMatched[0].path, keys),
+              params = reg.exec(urlTrimmed).slice(1);
 
-        if (test) {
-          res[key] = data[test[1]];
-        }
-      });
+          res = res(_queries, keys.reduce(function (result, key, i) {
+            result[key.name] = params[i];
+            return result;
+          }, {}));
+        })();
+      }
 
       console.info('[Mock]', this.toString(), res);
 
