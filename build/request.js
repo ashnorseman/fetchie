@@ -324,7 +324,7 @@ var Request = (function () {
       return new Promise(function (resolve, reject) {
         var timeout = setTimeout(function () {
           if (!_this2._resolved) {
-            reject(TIMEOUT_ERROR);
+            reject(new Error('TIMEOUT_ERROR'));
           }
         }, _this2._timeout);
 

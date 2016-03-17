@@ -59,7 +59,9 @@ _fetchie2.default.use(function () {
   this.timeout(1000);
 }).use(function () {
   this.cors(true);
-}).use((0, _mock2.default)(_mockData2.default)).success(function (res) {
+})
+//.use(fetchieMock(mockData))
+.success(function (res) {
   console.log('Global Success:', this.toString(), res);
 }).success(function (res) {
   if (res && res.success === false) {

@@ -18,7 +18,7 @@ fetchie
   .use(function () {
     this.cors(true);
   })
-  .use(fetchieMock(mockData))
+  //.use(fetchieMock(mockData))
   .success(function (res) {
     console.log('Global Success:', this.toString(), res);
   })

@@ -289,7 +289,7 @@ export default class Request {
     return new Promise((resolve, reject) => {
       let timeout = setTimeout(() => {
           if (!this._resolved) {
-            reject(TIMEOUT_ERROR);
+            reject(new Error('TIMEOUT_ERROR'));
           }
         }, this._timeout);
 

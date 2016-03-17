@@ -38,6 +38,10 @@ app.head('/*', function (req, res) {
   res.sendStatus(200);
 });
 
+app.delete('/*', function (req, res) {
+  res.end();
+});
+
 app.all('/*', function (req, res) {
   //res.status(400);
 
