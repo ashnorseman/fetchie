@@ -76,7 +76,7 @@ export default class Request {
     this._type = 'json';
     this._accept = 'json';
     this._cors = false;
-    this._timeout = 1000;
+    this._timeout = 100000;
     this._errorHandler = null;
   }
 
