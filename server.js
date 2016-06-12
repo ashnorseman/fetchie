@@ -39,7 +39,7 @@ app.head('/*', function (req, res) {
 });
 
 app.delete('/*', function (req, res) {
-  res.end();
+  res.sendStatus(400);
 });
 
 app.all('/*', function (req, res) {

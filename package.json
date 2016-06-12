@@ -1,6 +1,6 @@
 {
   "name": "fetchie",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "enhanced fetch api",
   "main": "build/fetchie.js",
   "scripts": {

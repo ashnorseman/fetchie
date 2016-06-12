@@ -362,7 +362,7 @@ export default class Request {
   _parseResponse(res) {
     switch (this._accept) {
     case 'json':
-      return res.json();
+      return res.json().catch(() => null);
     case 'html':
     case 'text':
       return res.text();

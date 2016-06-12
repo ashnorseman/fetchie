@@ -89,7 +89,7 @@ var Request = (function () {
     this._type = 'json';
     this._accept = 'json';
     this._cors = false;
-    this._timeout = 1000;
+    this._timeout = 100000;
     this._errorHandler = null;
   }
 
@@ -394,7 +394,9 @@ var Request = (function () {
     value: function _parseResponse(res) {
       switch (this._accept) {
         case 'json':
-          return res.json();
+          return res.json()['catch'](function () {
+            return null;
+          });
         case 'html':
         case 'text':
           return res.text();
