@@ -3,7 +3,7 @@
  */
 
 
-import { TYPES, TIMEOUT_R } from './constants';
+import { TYPES, CACHE } from './constants';
 
 
 /**
@@ -205,6 +205,17 @@ export default class Request {
 
 
   /**
+   * Use catch
+   * @returns {Request}
+   */
+  cache() {
+    this._cache = true;
+
+    return this;
+  }
+
+
+  /**
    * Set timeout
    * @param {number} ms
    * @returns {Request}
@@ -324,33 +335,54 @@ export default class Request {
     reject,
     timeout
   }) {
-    let queryString = makeQueryString(this._queries);
+    let queryString = makeQueryString(this._queries),
+      url = this._urlPrefix + this.url + (
+          queryString
+            ? (~this.url.indexOf('?') ? '&' : '?') + queryString
+            : ''
+        );
 
-    fetch(this._urlPrefix + this.url + (
-        queryString
-          ? (~this.url.indexOf('?') ? '&' : '?') + queryString
-          : ''
-      ), {
-      method: this.method,
-      headers: extendAppend(this.headers, {
-        'Accept': TYPES[this._accept] || this._accept,
-        'Content-Type': TYPES[this._type]
-      }),
-      body: this.formData || (this.data ? JSON.stringify(this.data) : null),
-      credentials: this._cors ? 'include' : 'same-origin'
-    })
-      .then(res => {
-        resolve(this._parseResponse(res));
+    if (this._cache && CACHE[url]) {
+      resolve(CACHE[url].data);
 
-        this._status = res.status;
-        this._resolved = true;
-        clearTimeout(timeout);
+      this._status = CACHE[url].status;
+      this._resolved = true;
+      clearTimeout(timeout);
+    } else {
+      fetch(url, {
+        method: this.method,
+        headers: extendAppend(this.headers, {
+          'Accept': TYPES[this._accept] || this._accept,
+          'Content-Type': TYPES[this._type]
+        }),
+        body: this.formData || (this.data ? JSON.stringify(this.data) : null),
+        credentials: this._cors ? 'include' : 'same-origin'
       })
-      .catch(res => {
-        reject(res);
-        this._resolved = true;
-        clearTimeout(timeout);
-      });
+        .then(res => {
+          const data = this._parseResponse(res);
+
+          // Cache result
+          if (this._cache &&
+              (this.method.toLocaleLowerCase() === 'get' || this.method.toLocaleLowerCase() === 'head')
+          ) {
+            CACHE[url] = {
+              data,
+              status: res.status
+            };
+          }
+
+          resolve(data);
+
+          this._status = res.status;
+          this._resolved = true;
+          clearTimeout(timeout);
+        })
+        .catch(res => {
+          reject(res);
+          this._resolved = true;
+          clearTimeout(timeout);
+        });
+    }
   }
 
 

@@ -1,15 +1,9 @@
-/**
- * Created by AshZhang on 15/12/25.
- */
-
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports['default'] = fetchieMock;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+exports.default = fetchieMock;
 
 var _pathToRegexp = require('path-to-regexp');
 
@@ -21,7 +15,9 @@ var _request = require('./request');
 
 var _request2 = _interopRequireDefault(_request);
 
-_request2['default'].prototype.mockError = function () {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_request2.default.prototype.mockError = function () {
   this._returnError = true;
 
   return this;
@@ -33,6 +29,9 @@ _request2['default'].prototype.mockError = function () {
  * @param {number} delayMs - mock server delay
  * @returns {Function}
  */
+/**
+ * Created by AshZhang on 15/12/25.
+ */
 
 function fetchieMock(mockData) {
   var delayMs = arguments.length <= 1 || arguments[1] === undefined ? 200 : arguments[1];
@@ -40,7 +39,7 @@ function fetchieMock(mockData) {
   var pathMap = Object.getOwnPropertyNames(mockData).map(function (path) {
     return {
       path: path,
-      reg: (0, _pathToRegexp2['default'])(path)
+      reg: (0, _pathToRegexp2.default)(path)
     };
   });
 
@@ -67,7 +66,7 @@ function fetchieMock(mockData) {
       if (typeof res === 'function') {
         (function () {
           var keys = [],
-              reg = (0, _pathToRegexp2['default'])(pathMatched[0].path, keys),
+              reg = (0, _pathToRegexp2.default)(pathMatched[0].path, keys),
               params = reg.exec(urlTrimmed).slice(1);
 
           res = res(_queries, keys.reduce(function (result, key, i) {
@@ -94,5 +93,3 @@ function fetchieMock(mockData) {
     return this;
   };
 }
-
-module.exports = exports['default'];

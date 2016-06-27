@@ -49,9 +49,22 @@ fetchie
     pageNum: 1,
     pageSize: 16
   })
+  .cache()
   //.mockError()
   .then(function (res) {
     console.log(this.toString(), res);
+
+    fetchie
+      .get('/gifts/1')
+      .query({
+        pageNum: 1,
+        pageSize: 16
+      })
+      .cache()
+      //.mockError()
+      .then(function (res) {
+        console.log(this.toString(), res);
+      });
   });
 
 fetchie

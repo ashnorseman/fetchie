@@ -1,18 +1,16 @@
-/**
- * Created by AshZhang on 15/12/24.
- */
-
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Created by AshZhang on 15/12/24.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
+
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
 var _constants = require('./constants');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  * Extend object
@@ -69,7 +67,7 @@ function makeQueryString() {
  * @constructor
  */
 
-var Request = (function () {
+var Request = function () {
   function Request(_ref) {
     var _ref$url = _ref.url;
     var url = _ref$url === undefined ? '' : _ref$url;
@@ -98,6 +96,7 @@ var Request = (function () {
    * @returns {string}
    */
 
+
   _createClass(Request, [{
     key: 'toString',
     value: function toString() {
@@ -118,6 +117,7 @@ var Request = (function () {
      * Append a query string
      * @param {object} query
      */
+
   }, {
     key: 'query',
     value: function query() {
@@ -133,6 +133,7 @@ var Request = (function () {
      * @param {object} data
      * @returns {Request}
      */
+
   }, {
     key: 'send',
     value: function send() {
@@ -151,6 +152,7 @@ var Request = (function () {
      * @param {string} [fileName]
      * @returns {Request}
      */
+
   }, {
     key: 'append',
     value: function append(name, file, fileName) {
@@ -170,6 +172,7 @@ var Request = (function () {
      * @param {Object} headers
      * @returns {Request}
      */
+
   }, {
     key: 'set',
     value: function set() {
@@ -185,6 +188,7 @@ var Request = (function () {
      * @param {string} type - json, form, html, xml
      * @returns {Request}
      */
+
   }, {
     key: 'setType',
     value: function setType(type) {
@@ -198,6 +202,7 @@ var Request = (function () {
      * @param {string} type
      * @returns {Request}
      */
+
   }, {
     key: 'accept',
     value: function accept(type) {
@@ -211,6 +216,7 @@ var Request = (function () {
      * @param {boolean} needCors
      * @returns {Request}
      */
+
   }, {
     key: 'cors',
     value: function cors(needCors) {
@@ -224,6 +230,7 @@ var Request = (function () {
      * @param {string} prefix
      * @returns {Request}
      */
+
   }, {
     key: 'prefix',
     value: function prefix(_prefix) {
@@ -233,10 +240,24 @@ var Request = (function () {
     }
 
     /**
+     * Use catch
+     * @returns {Request}
+     */
+
+  }, {
+    key: 'cache',
+    value: function cache() {
+      this._cache = true;
+
+      return this;
+    }
+
+    /**
      * Set timeout
      * @param {number} ms
      * @returns {Request}
      */
+
   }, {
     key: 'timeout',
     value: function timeout(ms) {
@@ -250,6 +271,7 @@ var Request = (function () {
      * @param {Function} cb - cb(error<Object>)
      * @returns {Request}
      */
+
   }, {
     key: 'handleError',
     value: function handleError(cb) {
@@ -264,6 +286,7 @@ var Request = (function () {
      * @param {Function} cb
      * @returns {Promise}
      */
+
   }, {
     key: 'then',
     value: function then(cb) {
@@ -275,7 +298,7 @@ var Request = (function () {
         } else {
           cb.call(_this, res);
         }
-      })['catch'](function (error) {
+      }).catch(function (error) {
 
         // Global error handlers
         Request._fetchie._errorHandlers.forEach(function (cb) {
@@ -297,6 +320,7 @@ var Request = (function () {
      * @returns {Promise}
      * @private
      */
+
   }, {
     key: '_sendRequest',
     value: function _sendRequest() {
@@ -352,6 +376,7 @@ var Request = (function () {
      * @param {number} timeout
      * @private
      */
+
   }, {
     key: '_fetch',
     value: function _fetch(_ref2) {
@@ -361,27 +386,46 @@ var Request = (function () {
       var reject = _ref2.reject;
       var timeout = _ref2.timeout;
 
-      var queryString = makeQueryString(this._queries);
+      var queryString = makeQueryString(this._queries),
+          url = this._urlPrefix + this.url + (queryString ? (~this.url.indexOf('?') ? '&' : '?') + queryString : '');
 
-      fetch(this._urlPrefix + this.url + (queryString ? (~this.url.indexOf('?') ? '&' : '?') + queryString : ''), {
-        method: this.method,
-        headers: extendAppend(this.headers, {
-          'Accept': _constants.TYPES[this._accept] || this._accept,
-          'Content-Type': _constants.TYPES[this._type]
-        }),
-        body: this.formData || (this.data ? JSON.stringify(this.data) : null),
-        credentials: this._cors ? 'include' : 'same-origin'
-      }).then(function (res) {
-        resolve(_this3._parseResponse(res));
+      if (this._cache && _constants.CACHE[url]) {
+        resolve(_constants.CACHE[url].data);
 
-        _this3._status = res.status;
-        _this3._resolved = true;
+        this._status = _constants.CACHE[url].status;
+        this._resolved = true;
         clearTimeout(timeout);
-      })['catch'](function (res) {
-        reject(res);
-        _this3._resolved = true;
-        clearTimeout(timeout);
-      });
+      } else {
+        fetch(url, {
+          method: this.method,
+          headers: extendAppend(this.headers, {
+            'Accept': _constants.TYPES[this._accept] || this._accept,
+            'Content-Type': _constants.TYPES[this._type]
+          }),
+          body: this.formData || (this.data ? JSON.stringify(this.data) : null),
+          credentials: this._cors ? 'include' : 'same-origin'
+        }).then(function (res) {
+          var data = _this3._parseResponse(res);
+
+          // Cache result
+          if (_this3._cache && (_this3.method.toLocaleLowerCase() === 'get' || _this3.method.toLocaleLowerCase() === 'head')) {
+            _constants.CACHE[url] = {
+              data: data,
+              status: res.status
+            };
+          }
+
+          resolve(data);
+
+          _this3._status = res.status;
+          _this3._resolved = true;
+          clearTimeout(timeout);
+        }).catch(function (res) {
+          reject(res);
+          _this3._resolved = true;
+          clearTimeout(timeout);
+        });
+      }
     }
 
     /**
@@ -389,12 +433,13 @@ var Request = (function () {
      * @param {Object} res
      * @returns {*}
      */
+
   }, {
     key: '_parseResponse',
     value: function _parseResponse(res) {
       switch (this._accept) {
         case 'json':
-          return res.json()['catch'](function () {
+          return res.json().catch(function () {
             return null;
           });
         case 'html':
@@ -407,7 +452,6 @@ var Request = (function () {
   }]);
 
   return Request;
-})();
+}();
 
-exports['default'] = Request;
-module.exports = exports['default'];
+exports.default = Request;

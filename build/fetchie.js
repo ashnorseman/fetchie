@@ -1,14 +1,9 @@
-/**
- * Created by AshZhang on 15/12/24.
- */
-
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+exports.fetchieMock = undefined;
 
 var _constants = require('./constants');
 
@@ -19,6 +14,8 @@ var _request2 = _interopRequireDefault(_request);
 var _mock = require('./mock');
 
 var _mock2 = _interopRequireDefault(_mock);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fetchie = {
 
@@ -37,6 +34,7 @@ var fetchie = {
     return this;
   },
 
+
   /**
    * Set a success callback
    * @param {Function} cb
@@ -48,6 +46,7 @@ var fetchie = {
     return this;
   },
 
+
   /**
    * Set a error callback
    * @param {Function} cb
@@ -58,16 +57,18 @@ var fetchie = {
 
     return this;
   }
-};
+}; /**
+    * Created by AshZhang on 15/12/24.
+    */
 
-_request2['default']._fetchie = fetchie;
+_request2.default._fetchie = fetchie;
 
 // HTTP Methods
 // ---------------------------
 
 function genRequest(method) {
   return function (url) {
-    return new _request2['default']({
+    return new _request2.default({
       url: url,
       method: method
     });
@@ -78,5 +79,5 @@ Object.getOwnPropertyNames(_constants.SUPPORTED_METHODS).forEach(function (metho
   fetchie[method] = genRequest(_constants.SUPPORTED_METHODS[method]);
 });
 
-exports.fetchieMock = _mock2['default'];
-exports['default'] = fetchie;
+exports.fetchieMock = _mock2.default;
+exports.default = fetchie;

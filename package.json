@@ -1,6 +1,6 @@
 {
   "name": "fetchie",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "enhanced fetch api",
   "main": "build/fetchie.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "path-to-regexp": "^1.2.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.10.1",
     "babel-plugin-transform-async-to-generator": "^6.3.13",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",

@@ -19,6 +19,4 @@ export const TYPES = {
   xml: 'application/xml'
 };
 
-export const TIMEOUT_ERROR = {
-  message: 'Timeout'
-};
+export const CACHE = {};

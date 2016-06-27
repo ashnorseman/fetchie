@@ -85,10 +85,19 @@ _fetchie2.default.get('/gifts').query({
 _fetchie2.default.get('/gifts/1').query({
   pageNum: 1,
   pageSize: 16
-})
+}).cache()
 //.mockError()
 .then(function (res) {
   console.log(this.toString(), res);
+
+  _fetchie2.default.get('/gifts/1').query({
+    pageNum: 1,
+    pageSize: 16
+  }).cache()
+  //.mockError()
+  .then(function (res) {
+    console.log(this.toString(), res);
+  });
 });
 
 _fetchie2.default.post('/gifts').send({
@@ -549,9 +558,7 @@ var TYPES = exports.TYPES = {
   xml: 'application/xml'
 };
 
-var TIMEOUT_ERROR = exports.TIMEOUT_ERROR = {
-  message: 'Timeout'
-};
+var CACHE = exports.CACHE = {};
 
 },{}],6:[function(require,module,exports){
 'use strict';
@@ -975,6 +982,19 @@ var Request = (function () {
     }
 
     /**
+     * Use catch
+     * @returns {Request}
+     */
+
+  }, {
+    key: 'cache',
+    value: function cache() {
+      this._cache = true;
+
+      return this;
+    }
+
+    /**
      * Set timeout
      * @param {number} ms
      * @returns {Request}
@@ -1108,27 +1128,46 @@ var Request = (function () {
       var reject = _ref2.reject;
       var timeout = _ref2.timeout;
 
-      var queryString = makeQueryString(this._queries);
+      var queryString = makeQueryString(this._queries),
+          url = this._urlPrefix + this.url + (queryString ? (~this.url.indexOf('?') ? '&' : '?') + queryString : '');
 
-      fetch(this._urlPrefix + this.url + (queryString ? (~this.url.indexOf('?') ? '&' : '?') + queryString : ''), {
-        method: this.method,
-        headers: extendAppend(this.headers, {
-          'Accept': _constants.TYPES[this._accept] || this._accept,
-          'Content-Type': _constants.TYPES[this._type]
-        }),
-        body: this.formData || (this.data ? JSON.stringify(this.data) : null),
-        credentials: this._cors ? 'include' : 'same-origin'
-      }).then(function (res) {
-        resolve(_this3._parseResponse(res));
+      if (this._cache && _constants.CACHE[url]) {
+        resolve(_constants.CACHE[url].data);
 
-        _this3._status = res.status;
-        _this3._resolved = true;
+        this._status = _constants.CACHE[url].status;
+        this._resolved = true;
         clearTimeout(timeout);
-      }).catch(function (res) {
-        reject(res);
-        _this3._resolved = true;
-        clearTimeout(timeout);
-      });
+      } else {
+        fetch(url, {
+          method: this.method,
+          headers: extendAppend(this.headers, {
+            'Accept': _constants.TYPES[this._accept] || this._accept,
+            'Content-Type': _constants.TYPES[this._type]
+          }),
+          body: this.formData || (this.data ? JSON.stringify(this.data) : null),
+          credentials: this._cors ? 'include' : 'same-origin'
+        }).then(function (res) {
+          var data = _this3._parseResponse(res);
+
+          // Cache result
+          if (_this3._cache && (_this3.method.toLocaleLowerCase() === 'get' || _this3.method.toLocaleLowerCase() === 'head')) {
+            _constants.CACHE[url] = {
+              data: data,
+              status: res.status
+            };
+          }
+
+          resolve(data);
+
+          _this3._status = res.status;
+          _this3._resolved = true;
+          clearTimeout(timeout);
+        }).catch(function (res) {
+          reject(res);
+          _this3._resolved = true;
+          clearTimeout(timeout);
+        });
+      }
     }
 
     /**
